@@ -1,0 +1,8 @@
+# misc
+.DS_Store
+/video/.DS_Store
+Thumbs.db
+Desktop.ini
+*.pem
+*.key
+*.crt
