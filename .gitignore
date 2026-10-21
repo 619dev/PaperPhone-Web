@@ -6,3 +6,6 @@ Desktop.ini
 *.pem
 *.key
 *.crt
+
+# Archify local verification receipts (HTML and source specs are versioned)
+/architecture/*.json

@@ -1,0 +1,288 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "PaperPhoneLite · 代码架构",
+    "locale": "zh-CN",
+    "output": "architecture/paperphonelite.html",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/619dev/PaperPhoneLite.git",
+      "revision": "bcca78d8e58a749c6725cea7a6bc65d3bc159436"
+    }
+  },
+  "components": [
+    {
+      "id": "client",
+      "type": "frontend",
+      "label": "React 客户端",
+      "sublabel": "页面 · 状态 · 本地密钥",
+      "pos": [
+        40,
+        60
+      ],
+      "size": [
+        180,
+        72
+      ],
+      "sources": [
+        {
+          "path": "client/src/App.tsx",
+          "line": 1,
+          "end_line": 28
+        },
+        {
+          "path": "client/src/crypto/authenticatedMessaging.ts",
+          "line": 36,
+          "end_line": 50
+        }
+      ]
+    },
+    {
+      "id": "api",
+      "type": "backend",
+      "label": "Axum API",
+      "sublabel": "认证 · 群组 · 文件",
+      "pos": [
+        400,
+        60
+      ],
+      "size": [
+        180,
+        72
+      ],
+      "sources": [
+        {
+          "path": "server/src/routes/mod.rs",
+          "line": 20,
+          "end_line": 35
+        },
+        {
+          "path": "server/src/routes/upload.rs",
+          "line": 15,
+          "end_line": 48
+        }
+      ]
+    },
+    {
+      "id": "files",
+      "type": "database",
+      "label": "本地文件卷",
+      "sublabel": "永久头像 · 临时附件",
+      "pos": [
+        760,
+        60
+      ],
+      "size": [
+        180,
+        72
+      ],
+      "sources": [
+        {
+          "path": "server/src/routes/upload.rs",
+          "line": 15,
+          "end_line": 48
+        }
+      ]
+    },
+    {
+      "id": "ws",
+      "type": "backend",
+      "label": "WebSocket 消息",
+      "sublabel": "密文投递 · 离线通知",
+      "pos": [
+        400,
+        290
+      ],
+      "size": [
+        180,
+        72
+      ],
+      "sources": [
+        {
+          "path": "server/src/ws/server.rs",
+          "line": 215,
+          "end_line": 250
+        },
+        {
+          "path": "server/src/ws/server.rs",
+          "line": 140,
+          "end_line": 164
+        },
+        {
+          "path": "server/src/ws/server.rs",
+          "line": 462,
+          "end_line": 474
+        }
+      ]
+    },
+    {
+      "id": "db",
+      "type": "database",
+      "label": "MySQL",
+      "sublabel": "账号 · 群组 · 密文消息",
+      "pos": [
+        760,
+        290
+      ],
+      "size": [
+        180,
+        72
+      ],
+      "sources": [
+        {
+          "path": "server/src/ws/server.rs",
+          "line": 215,
+          "end_line": 250
+        },
+        {
+          "path": "server/src/main.rs",
+          "line": 35,
+          "end_line": 55
+        }
+      ]
+    },
+    {
+      "id": "redis",
+      "type": "database",
+      "label": "Redis",
+      "sublabel": "在线状态 · 心跳 TTL",
+      "pos": [
+        400,
+        520
+      ],
+      "size": [
+        180,
+        72
+      ],
+      "sources": [
+        {
+          "path": "server/src/ws/server.rs",
+          "line": 140,
+          "end_line": 164
+        }
+      ]
+    },
+    {
+      "id": "push",
+      "type": "cloud",
+      "label": "推送服务",
+      "sublabel": "ntfy · Bark / APNs 代码路径",
+      "pos": [
+        760,
+        520
+      ],
+      "size": [
+        180,
+        72
+      ],
+      "sources": [
+        {
+          "path": "server/src/ws/server.rs",
+          "line": 462,
+          "end_line": 474
+        }
+      ]
+    },
+    {
+      "id": "tor",
+      "type": "security",
+      "label": "Tor v3 onion",
+      "sublabel": "仅 onion · 无明网回退",
+      "pos": [
+        40,
+        290
+      ],
+      "size": [
+        180,
+        72
+      ],
+      "sources": [
+        {
+          "path": "deploy/tor/torrc",
+          "line": 1,
+          "end_line": 6
+        },
+        {
+          "path": "client/src/utils/torPolicy.ts",
+          "line": 3,
+          "end_line": 26
+        },
+        {
+          "path": "client/src/api/socket.ts",
+          "line": 55,
+          "end_line": 78
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "api-files",
+      "from": "api",
+      "to": "files",
+      "label": "写入文件"
+    },
+    {
+      "id": "api-db",
+      "from": "api",
+      "to": "db",
+      "label": "SQL"
+    },
+    {
+      "id": "ws-db",
+      "from": "ws",
+      "to": "db",
+      "label": "保存密文"
+    },
+    {
+      "id": "ws-redis",
+      "from": "ws",
+      "to": "redis",
+      "label": "状态心跳"
+    },
+    {
+      "id": "ws-push",
+      "from": "ws",
+      "to": "push",
+      "label": "离线时推送"
+    },
+    {
+      "id": "client-tor",
+      "from": "client",
+      "to": "tor",
+      "label": "HTTP / WS"
+    },
+    {
+      "id": "tor-api",
+      "from": "tor",
+      "to": "api",
+      "label": "转发 API"
+    },
+    {
+      "id": "tor-ws",
+      "from": "tor",
+      "to": "ws",
+      "label": "转发 /ws"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "阅读范围",
+      "items": [
+        "基于共享客户端、Rust 服务端与部署配置的系统概览。原生壳的内部实现不展开。",
+        "点击组件查看固定版本源码；箭头表示调用或写入方向。"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "信任与部署",
+      "items": [
+        "消息正文在客户端加密与签名；服务器仍处理元数据并保存上传文件。",
+        "Tor 图示为入口抽象；内嵌 Tor 的平台实现位于独立原生客户端仓库。",
+        "推送为按配置与设备注册启用的外部依赖。"
+      ]
+    }
+  ]
+}
