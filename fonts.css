@@ -1,4 +1,4 @@
-/* Chinese uses 得意黑; Latin text uses Novah. */
+/* Chinese uses 得意黑; Latin headings use Novah; body text uses system fonts. */
 @font-face {
   font-family: "PaperPhone Chinese";
   src: url("fonts/smiley-sans.ttf") format("truetype");
@@ -11,11 +11,18 @@
 @font-face {
   font-family: "PaperPhone English";
   src: url("fonts/novah.ttf") format("truetype");
+  size-adjust: 90%;
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
   unicode-range: U+0000-024F, U+1E00-1EFF;
 }
 
-/* Give English lettering room to breathe in inherited body text. */
-body { letter-spacing: 0.04em; }
+/* Keep body copy at normal tracking; use the display face only in headings.
+   size-adjust above reduces Latin glyphs without shrinking Chinese headings. */
+body { letter-spacing: normal; }
+h1, h2, h3, h4, h5, h6 {
+  font-family: "PaperPhone Chinese", "PaperPhone English", Inter, ui-sans-serif,
+    -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+  letter-spacing: 0.02em !important;
+}
