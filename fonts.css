@@ -16,3 +16,6 @@
   font-display: swap;
   unicode-range: U+0000-024F, U+1E00-1EFF;
 }
+
+/* Give ONE DAY lettering room to breathe in inherited body text. */
+body { letter-spacing: 0.04em; }
