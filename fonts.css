@@ -1,4 +1,4 @@
-/* Chinese uses 得意黑; Latin headings use Novah; body text uses system fonts. */
+/* Headings use 得意黑 / Novah; body text uses system fonts. */
 @font-face {
   font-family: "PaperPhone Chinese";
   src: url("fonts/smiley-sans.ttf") format("truetype");
@@ -18,7 +18,7 @@
   unicode-range: U+0000-024F, U+1E00-1EFF;
 }
 
-/* Keep body copy at normal tracking; use the display face only in headings.
+/* Keep all body copy on system fonts; use the display faces only in headings.
    size-adjust above reduces Latin glyphs without shrinking Chinese headings. */
 body { letter-spacing: normal; }
 h1, h2, h3, h4, h5, h6 {
