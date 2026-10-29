@@ -1,0 +1,9 @@
+/* Use 得意黑 for Chinese glyphs while preserving each page's Latin typography. */
+@font-face {
+  font-family: "PaperPhone Chinese";
+  src: url("fonts/smiley-sans.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  unicode-range: U+2E80-33FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FE30-FE4F, U+FF00-FFEF, U+20000-323AF;
+}
