@@ -70,12 +70,16 @@ h1 span { color: #8b9690; }
 
 .product-stack { height: 490px; }
 .product-card {
+  z-index: 1;
   width: min(405px,94%);
   padding: 30px;
   border-color: rgba(255,255,255,.13);
   border-radius: 14px;
   box-shadow: 0 28px 70px rgba(0,0,0,.32), inset 0 1px rgba(255,255,255,.06);
   backdrop-filter: blur(20px);
+  cursor: pointer;
+  user-select: none;
+  transition: transform .24s ease, border-color .24s ease, box-shadow .24s ease, filter .24s ease;
 }
 .product-card:before {
   content: "";
@@ -87,6 +91,18 @@ h1 span { color: #8b9690; }
 }
 .product-card.plus { background: linear-gradient(145deg,rgba(40,91,67,.74),rgba(18,23,20,.94) 60%); }
 .product-card.lite { background: linear-gradient(145deg,rgba(77,65,132,.7),rgba(18,19,23,.95) 62%); }
+.product-card:not(.is-active) { filter: saturate(.78) brightness(.82); }
+.product-card.is-active {
+  z-index: 2;
+  transform: translateY(-7px);
+  border-color: rgba(255,255,255,.25);
+  filter: none;
+  box-shadow: 0 34px 86px rgba(0,0,0,.42), inset 0 1px rgba(255,255,255,.09);
+}
+.product-card.plus.is-active { border-color: rgba(62,207,142,.46); }
+.product-card.lite.is-active { border-color: rgba(155,135,245,.46); }
+.product-card:focus-visible { outline: 2px solid var(--green); outline-offset: 4px; }
+.product-card.lite:focus-visible { outline-color: var(--violet); }
 .product-card h2 { margin-top: 16px; font-size: 2.25rem; }
 .chip { border-radius: 5px; background: rgba(255,255,255,.055); }
 
